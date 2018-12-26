@@ -11,17 +11,46 @@ class Home extends Component {
     gifs:[],
     favorited: JSON.parse(localStorage.getItem('favorited')) || [],
     query: "",
-    loaded: false
+    totalPages:null,
+    offset:0,
+    loaded: false,
+    scrolling: false
   }
-  
+
 // GET GIFS FROM dummy_data
 // Use setTimeout to imitate API call loading time
+  // giphyData = ()=>{
+  //   const { gifs } = this.state
+  //   setTimeout(()=>{
+  //     this.setState({ loaded: true })
+  //   }, 3000)
+  //   this.setState({gifs: dummy_data.data})
+  // }
+
   giphyData = ()=>{
-    const { gifs } = this.state
+    const { gifs, offset } = this.state
     setTimeout(()=>{
-      this.setState({ loaded: true })
+      this.setState({ loaded: true, scrolling: false })
     }, 3000)
-    this.setState({gifs: dummy_data.data})
+    this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+24))]})
+  }
+// Infinite Scroll
+  giphyInfinite = ()=>{
+    console.log('INFINITE SCROLL')
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+      offset: prevState.offset + 24,
+      scrolling: true
+    }), this.giphyData)
+  }
+
+  handleScroll = ()=>{
+    const lastDiv = document.querySelector('div.last > div:last-child')
+    console.log(lastDiv)
+    const lastDivOffset = lastDiv.offsetTop + lastDiv.clientHeight
+    const pageOffset = window.pageYOffset + window.innerHeight;
+    const bottomOffset = 100
+    if(pageOffset > lastDivOffset - bottomOffset) this.giphyInfinite()
   }
 
 // Search Giphy based on Query
@@ -50,6 +79,9 @@ class Home extends Component {
 
   componentDidMount(){
     this.giphyData()
+    this.scrollEventListener = window.addEventListener('scroll', (event)=>{
+      this.handleScroll(event)
+    })
   }
   render() {
     const { gifs, loaded } = this.state;

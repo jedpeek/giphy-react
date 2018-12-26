@@ -30,7 +30,7 @@ class Favorites extends Component {
   render() {
     const { favorited, loaded } = this.state;
     return (
-      <Container>
+      <Container fluid>
         <Row>
         { favorited.length ? favorited.map(gif => <GifCard gif={gif} key={gif.id}  unFavorite={this.unFavorite} loaded={loaded} />) : <h1>YOU NEED TO FAVORITE SOME GIFS</h1> }
         </Row>
