@@ -18,3 +18,11 @@
   transform: scale(1.05);
   box-shadow: 3px 3px 3px grey;
 }
+
+/* SEARCH FORM STYLES */
+
+.search_form {
+  width: 75%;
+  margin: auto;
+  padding: 20px 0 50px 0;
+}
