@@ -8,6 +8,7 @@ const search_style = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200,
+    fontSize: 300,
   },
   dense: {
     marginTop: 19,

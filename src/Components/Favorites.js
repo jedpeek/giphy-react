@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import GifCard from'./GifCard'
 import { Container, Row } from 'reactstrap'
 class Favorites extends Component {
   state={
     favorited:[],
-    loaded: true
+    loaded: true,
   }
 // Retrieves Favorited GIFS from localStorage
 // If no GIFS are available an empty array is returned

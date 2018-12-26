@@ -16,7 +16,7 @@ class GifCard extends Component {
   render(){
     const { images, title, id } = this.props.gif
     let imgSrc="";
-    this.props.loaded ? imgSrc = images.fixed_width.url : imgSrc = 'LoadingGif.gif'
+    this.props.loaded ? imgSrc = images.fixed_width.url : imgSrc = 'public/LoadingGif.gif'
     return (
       <Col xl="4" lg='6' md='6' sm="12" xs="12" key={this.props.id} >
           <CardImg  src={imgSrc} alt={title} onClick={this.toggle} className="gif-img img-fluid" />

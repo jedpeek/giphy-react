@@ -11,7 +11,7 @@ class MyDropzone extends React.Component {
     this.state = {
       file: [],
       imgSrc:null,
-      tags:'',
+      tags:"EZGIF",
       uploaded: false
     }
   }
@@ -28,6 +28,7 @@ class MyDropzone extends React.Component {
     const fd = new FormData();
     fd.append('file', file)
     fd.append('api_key', api_key)
+    fd.append('tags', tags.match(/[^ ,]+/g).join(','))
     axios.post(`http://upload.giphy.com/v1/gifs`, fd, this.onUploadProgress)
     .then(res=> {
       console.log(res)

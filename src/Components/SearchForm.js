@@ -18,6 +18,8 @@ class SearchForm extends Component {
             margin="normal"
             name={name}
             fullWidth
+
+        
           />
         </form>
       </div>

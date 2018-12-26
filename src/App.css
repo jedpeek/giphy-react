@@ -1,4 +1,4 @@
-a{
+a:hover{
   text-decoration: none;
   color: black;
 }
@@ -6,6 +6,18 @@ a{
 body{
     background: #eee;
     text-align: center;
+}
+
+/*****  HEADER STYLES *****/
+
+.header {
+  /* background: #ccc; */
+  margin-bottom: 25px;
+  /* border-bottom: 1px solid black; */
+}
+
+.gif-collection-title {
+  padding: 25px;
 }
 
 
@@ -42,6 +54,7 @@ body{
  flex: wrap;
  margin: 30px 80px 30px 80px;
  color: #000;
+ text-decoration: none;
 }
 
 .nav-span:hover{
@@ -49,12 +62,11 @@ body{
   flex: wrap;
   margin: 30px 80px 30px 80px;
   color: #11ABB0;
-  text-decoration: underline;
-  -webkit-transition: color .3s ease-in-out;
-  -moz-transition: color .3s ease-in-out;
-  -o-transition: color .3s ease-in-out;
-  -ms-transition: color .3s ease-in-out;
-  transition: color .3s ease-in-out;
+  -webkit-transition: color .2s ease-in-out;
+  -moz-transition: color .2s ease-in-out;
+  -o-transition: color .2s ease-in-out;
+  -ms-transition: color .2s ease-in-out;
+  transition: color .2s ease-in-out;
 }
 
 /***** UPLOAD STYLES *****/
@@ -65,10 +77,12 @@ body{
   right: 0;
   bottom: 0;
   left: 0;
-  width: 250px;
+  width: 400px;
   height: 250px;
   background-color: #eee;
   border-radius: 3px;
+  border: 1px solid black;
+  padding: 5px;
 }
 
 .drop-div:hover {
@@ -82,8 +96,8 @@ body{
   right: 0;
   bottom: 0;
   left: 0;
-  max-width: 250px;
+  max-width: 400px;
   max-height: 250px;
-  min-width: 250px;
+  min-width: 400px;
   min-height: 250px;
 }
