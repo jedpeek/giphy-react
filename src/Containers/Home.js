@@ -13,6 +13,7 @@ class Home extends Component {
     query: "",
     loaded: false
   }
+  
 // GET GIFS FROM dummy_data
 // Use setTimeout to imitate API call loading time
   giphyData = ()=>{
@@ -22,6 +23,7 @@ class Home extends Component {
     }, 3000)
     this.setState({gifs: dummy_data.data})
   }
+
 // Search Giphy based on Query
   giphySearch = (event)=>{
     event.preventDefault();
@@ -31,6 +33,7 @@ class Home extends Component {
     .then(()=> this.setState({loaded: true}))
     .catch(error => console.log(error));
   }
+
 // Handle form change
   handleChange = (event)=> this.setState({[event.target.name]: event.target.value});
 
