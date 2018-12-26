@@ -1,13 +1,20 @@
-.App {
-  text-align: center;
+a{
+  text-decoration: none;
+  color: black;
 }
+
+body{
+    background: #eee;
+    text-align: center;
+}
+
 
 /*****  GIFCARD STYLES *****/
 .gif-img {
   border-radius: 2px;
-  max-width: 375px;
+  max-width: 400px;
   max-height: 220px;
-  min-width: 375px;
+  min-width: 400px;
   min-height: 220px;
   overflow: hidden;
   margin: 10px ;
@@ -29,23 +36,54 @@
 
 /* NAV STYLES */
 
- .nav-span{
-   font-size: 20px;
-   display: inline-flex;
-   flex: wrap;
-   margin: 30px 80px 30px 80px;
-   color: #000;
- }
+.nav-span{
+ font-size: 20px;
+ display: inline-flex;
+ flex: wrap;
+ margin: 30px 80px 30px 80px;
+ color: #000;
+}
 
-  .nav-span:hover{
-    display: inline-flex;
-    flex: wrap;
-    margin: 30px 80px 30px 80px;
-    color: #11ABB0;
-    text-decoration: underline;
-    -webkit-transition: color .3s ease-in-out;
-    -moz-transition: color .3s ease-in-out;
-    -o-transition: color .3s ease-in-out;
-    -ms-transition: color .3s ease-in-out;
-    transition: color .3s ease-in-out;
-  }
+.nav-span:hover{
+  display: inline-flex;
+  flex: wrap;
+  margin: 30px 80px 30px 80px;
+  color: #11ABB0;
+  text-decoration: underline;
+  -webkit-transition: color .3s ease-in-out;
+  -moz-transition: color .3s ease-in-out;
+  -o-transition: color .3s ease-in-out;
+  -ms-transition: color .3s ease-in-out;
+  transition: color .3s ease-in-out;
+}
+
+/***** UPLOAD STYLES *****/
+.drop-div {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  background-color: #eee;
+  border-radius: 3px;
+}
+
+.drop-div:hover {
+  background-color: #ccc;
+}
+
+.dropped-img {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-width: 250px;
+  max-height: 250px;
+  min-width: 250px;
+  min-height: 250px;
+}

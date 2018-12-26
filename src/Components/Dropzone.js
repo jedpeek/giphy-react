@@ -1,5 +1,6 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
+import { Button } from 'reactstrap'
 import axios from 'axios'
 const maxSize = 100000000 // 100MB
 const api_key = process.env.GIPHY_KEY || 'XeV04VURnwNCs7nYczgfCQ3bl7udAXiX'
@@ -78,7 +79,7 @@ class MyDropzone extends React.Component {
     const { imgSrc, uploaded } = this.state
 
     return (
-      <section>
+      <section >
         <Dropzone
           onDrop={this.onDrop}
           onFileDialogCancel={this.onCancel}
@@ -92,12 +93,12 @@ class MyDropzone extends React.Component {
               <div className='drop-div'>
                 <h1>DROP FILE HERE</h1>
                 <h4>CLICK TO SELECT</h4>
-                {imgSrc ? <div className="dropped-img"><img src={imgSrc} alt="Selected"/></div>: null}
+                {imgSrc ? <div ><img src={imgSrc} className="dropped-img" alt="Selected"/></div>: null}
               </div>
             </div>
           )}
         </Dropzone>
-        <input type="submit" onClick={this.handleSubmit}/>
+        <Button type="submit" onClick={this.handleSubmit} color="primary"> UPLOAD GIF</Button>
         {uploaded ? <h1>Success!!! Do you want to add another?</h1> : null}
       </section>
     );
