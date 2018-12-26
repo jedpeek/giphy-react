@@ -26,3 +26,26 @@
   margin: auto;
   padding: 20px 0 50px 0;
 }
+
+/* NAV STYLES */
+
+ .nav-span{
+   font-size: 20px;
+   display: inline-flex;
+   flex: wrap;
+   margin: 30px 80px 30px 80px;
+   color: #000;
+ }
+
+  .nav-span:hover{
+    display: inline-flex;
+    flex: wrap;
+    margin: 30px 80px 30px 80px;
+    color: #11ABB0;
+    text-decoration: underline;
+    -webkit-transition: color .3s ease-in-out;
+    -moz-transition: color .3s ease-in-out;
+    -o-transition: color .3s ease-in-out;
+    -ms-transition: color .3s ease-in-out;
+    transition: color .3s ease-in-out;
+  }
