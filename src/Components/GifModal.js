@@ -26,8 +26,8 @@ class GifModal extends React.Component {
             <div display="block" className="float-left">
               <small className="text-muted">created by: {author}</small>
             </div>
-            <Button color="primary" onClick={this.props.favorite} className="float-right" id={this.props.id} block>Favorite</Button>
-            <Button color="primary" onClick={this.props.unFavorite} className="float-right" id={this.props.id} block>UNFavorite</Button>
+            <Button color="primary" onClick={this.props.favorite} className="float-right" id={this.props.id} block>FAVORTIE</Button>
+            <Button color="danger" onClick={this.props.unFavorite} className="float-right" id={this.props.id} block>UNFAVORITE</Button>
           </ModalFooter>
         </Modal>
       </React.Fragment>
