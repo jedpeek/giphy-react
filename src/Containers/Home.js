@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios'
 import dummy_data from '../dummy_data'
 import {Container, Row} from 'reactstrap'
@@ -14,32 +14,35 @@ class Home extends Component {
     totalPages:null,
     offset:0,
     loaded: false,
-    scrolling: false
+    scrolling: false,
+    search: false
   }
 
 // GET GIFS FROM dummy_data
 // Use setTimeout to imitate API call loading time
-  // giphyData = ()=>{
-  //   const { gifs } = this.state
-  //   setTimeout(()=>{
-  //     this.setState({ loaded: true })
-  //   }, 3000)
-  //   this.setState({gifs: dummy_data.data})
-  // }
-
   giphyData = ()=>{
     const { gifs, offset } = this.state
     setTimeout(()=>{
-      this.setState({ loaded: true, scrolling: false })
+      this.setState({ loaded: true, scrolling: false, search: false })
     }, 3000)
-    this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+24))]})
+    this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+25))]})
   }
+
+  // giphyData = ()=>{
+  //   const { offset, gifs } = this.state;
+  //   this.setState({loaded: false, search: true})
+  //   axios.get(`http://api.giphy.com/v1/gifs/trending?offset=${offset}&api_key=${api_key}`)
+  //   .then(response => this.setState({gifs:[...gifs, ...response.data.data]})
+  //   ).then(()=> this.setState({loaded: true}))
+  //   .catch(error => console.log(error));
+  // }
+
 // Infinite Scroll
   giphyInfinite = ()=>{
     console.log('INFINITE SCROLL')
     this.setState(prevState => ({
       page: prevState.page + 1,
-      offset: prevState.offset + 24,
+      offset: prevState.offset + 25,
       scrolling: true
     }), this.giphyData)
   }
@@ -56,8 +59,9 @@ class Home extends Component {
 // Search Giphy based on Query
   giphySearch = (event)=>{
     event.preventDefault();
-    this.setState({loaded: false})
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${this.state.query}&api_key=${api_key}`)
+    const { query, offset } = this.state;
+    this.setState({loaded: false, search: true})
+    axios.get(`http://api.giphy.com/v1/gifs/search?q=${query}&offset=${offset}&api_key=${api_key}`)
     .then(response => this.setState({gifs: response.data.data}))
     .then(()=> this.setState({loaded: true}))
     .catch(error => console.log(error));
@@ -70,10 +74,10 @@ class Home extends Component {
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
     const id = event.target.id
-    const { gifs, favorited } = this.state;
-    const currentFav = gifs.find(gif => gif.id === id)
-    this.setState(prevState => {favorited: prevState.favorited.push(currentFav)},()=>{
-      localStorage.setItem("favorited", [JSON.stringify(favorited)])
+    const currentFav = this.state.gifs.find(gif => gif.id === id)
+    this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)
+    }),
+      ()=>{localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
     })
   }
 
@@ -83,21 +87,29 @@ class Home extends Component {
       this.handleScroll(event)
     })
   }
+
   render() {
-    const { gifs, loaded } = this.state;
+    const { gifs, loaded, search, query } = this.state;
     return (
+      <Fragment>
+        <Container fluid className="header">
+          <Row>
+            <SearchForm
+              name='query'
+              gifs={this.state.gifs}
+              loaded={this.state.loaded}
+              giphySearch={this.giphySearch}
+              handleChange={this.handleChange}
+              />
+          </Row>
+        </Container>
         <Container fluid>
+          <h1 className="gif-collection-title" align='left'>TRENDING</h1>
           <Row className='last'>
-          <SearchForm
-            name='query'
-            gifs={this.state.gifs}
-            loaded={this.state.loaded}
-            giphySearch={this.giphySearch}
-            handleChange={this.handleChange}
-            />
             { gifs.map(gif => <GifCard gif={gif} key={gif.id} loaded={loaded} favorite={this.favorite}/>)}
           </Row>
         </Container>
+        </Fragment>
     );
   }
 }
