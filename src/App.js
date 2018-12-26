@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
 
-import SimpleNav from "./Components/simple_nav.js"
+import SimpleNav from "./Components/SimpleNav"
 import Home from './Containers/Home'
 
 export default class App extends Component {

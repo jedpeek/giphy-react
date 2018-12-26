@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import dummy_data from '../dummy_data'
 import {Container, Row} from 'reactstrap'
-
+import GifCard from '../Components/GifCard'
 class Home extends Component {
   state = {
     gifs:[],
@@ -10,6 +10,7 @@ class Home extends Component {
     loaded: false
   }
 // GET GIFS FROM dummy_data
+// Use setTimeout to imitate API call loading time
   giphyData = ()=>{
     const { gifs } = this.state
     setTimeout(()=>{
@@ -18,24 +19,19 @@ class Home extends Component {
     this.setState({gifs: dummy_data.data})
   }
 
-
-
   componentDidMount(){
     this.giphyData()
   }
   render() {
     const { gifs, loaded } = this.state;
     return (
-      <React.Fragment>
         <Container fluid>
           <Row className='last'>
-            { gifs.map(gif => <li key={gif.id}>{gif.slug}</li>)}
+            { gifs.map(gif => <GifCard gif={gif} key={gif.id} loaded={loaded} />)}
           </Row>
         </Container>
-      </React.Fragment>
     );
   }
-
 }
 
 export default Home;
