@@ -9,6 +9,7 @@ const api_key = process.env.GIPHY_KEY || 'XeV04VURnwNCs7nYczgfCQ3bl7udAXiX'
 class Home extends Component {
   state = {
     gifs:[],
+    favorited: JSON.parse(localStorage.getItem('favorited')) || [],
     query: "",
     loaded: false
   }
@@ -33,6 +34,17 @@ class Home extends Component {
 // Handle form change
   handleChange = (event)=> this.setState({[event.target.name]: event.target.value});
 
+// Favorited gifs get stored in the browsers localStorage as 'favorited'
+// to allow users to leave page and return to view favorited gifs
+  favorite = (event)=>{
+    const id = event.target.id
+    const { gifs, favorited } = this.state;
+    const currentFav = gifs.find(gif => gif.id === id)
+    this.setState(prevState => {favorited: prevState.favorited.push(currentFav)},()=>{
+      localStorage.setItem("favorited", [JSON.stringify(favorited)])
+    })
+  }
+
   componentDidMount(){
     this.giphyData()
   }
@@ -48,7 +60,7 @@ class Home extends Component {
             giphySearch={this.giphySearch}
             handleChange={this.handleChange}
             />
-            { gifs.map(gif => <GifCard gif={gif} key={gif.id} loaded={loaded} />)}
+            { gifs.map(gif => <GifCard gif={gif} key={gif.id} loaded={loaded} favorite={this.favorite}/>)}
           </Row>
         </Container>
     );
