@@ -80,7 +80,7 @@ class MyDropzone extends React.Component {
     const { imgSrc, uploaded } = this.state
 
     return (
-      <section >
+      <section className='box'>
         <Dropzone
           onDrop={this.onDrop}
           onFileDialogCancel={this.onCancel}

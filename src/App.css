@@ -8,25 +8,20 @@ body{
     text-align: center;
 }
 
-/*****  HEADER STYLES *****/
-
-.header {
-  /* background: #ccc; */
-  margin-bottom: 25px;
-  /* border-bottom: 1px solid black; */
-}
-
-.gif-collection-title {
-  padding: 25px;
+.sort-div {
+  margin: 10px ;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 
 /*****  GIFCARD STYLES *****/
 .gif-img {
   border-radius: 2px;
-  max-width: 400px;
+  max-width: 380px;
   max-height: 220px;
-  min-width: 400px;
+  min-width: 380px;
   min-height: 220px;
   overflow: hidden;
   margin: 10px ;
@@ -102,8 +97,10 @@ body{
 }
 
 /***** UPLOAD STYLES *****/
+
 .drop-div {
-  position: absolute;
+  position: relative;
+  background-image: url();
   margin: auto;
   top: 0;
   right: 0;
