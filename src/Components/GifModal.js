@@ -1,18 +1,24 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import clear_heart from "../Images/clear_heart.png"
+import red_heart from "../Images/red_heart.png"
 class GifModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: true,
-      favorited: false
+      modal: true
     };
   }
+
   toggle=()=>{this.setState({modal: !this.state.modal})}
 
   render() {
-    const { img, title, author } = this.props
+    const { img, title, author, favorited } = this.props
+    let heart;
+
+    favorited ? heart = <img onClick={this.props.unFavorite} id={this.props.id} src={red_heart} className="fav-heart" /> :
+    heart = <img onClick={this.props.favorite} id={this.props.id} src={clear_heart} className="fav-heart" />
+
     return (
       <React.Fragment>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -26,8 +32,7 @@ class GifModal extends React.Component {
             <div display="block" className="float-left">
               <small className="text-muted">created by: {author}</small>
             </div>
-            <Button color="primary" onClick={this.props.favorite} className="float-right" id={this.props.id} block>FAVORTIE</Button>
-            <Button color="danger" onClick={this.props.unFavorite} className="float-right" id={this.props.id} block>UNFAVORITE</Button>
+            {heart}
           </ModalFooter>
         </Modal>
       </React.Fragment>

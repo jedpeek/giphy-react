@@ -39,7 +39,6 @@ class Home extends Component {
 
 // Infinite Scroll
   giphyInfinite = ()=>{
-    console.log('INFINITE SCROLL')
     this.setState(prevState => ({
       page: prevState.page + 1,
       offset: prevState.offset + 25,
@@ -73,16 +72,21 @@ class Home extends Component {
 // Favorited gifs get stored in the browsers localStorage as 'favorited'
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
+    const localFavs = JSON.parse(localStorage.getItem('favorited'))
     const id = event.target.id
     const currentFav = this.state.gifs.find(gif => gif.id === id)
-    this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)
-    }),
-      ()=>{localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
-    })
+    if(localFavs.find(gif => gif.id === currentFav.id)){
+      return
+    }else {
+      this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)
+      }),
+        ()=>{localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
+      })
+    }
   }
 
   componentDidMount(){
-    this.giphyData()
+    if(this.state.gifs.length === 0) this.giphyData() 
     this.scrollEventListener = window.addEventListener('scroll', (event)=>{
       this.handleScroll(event)
     })

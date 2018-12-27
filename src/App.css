@@ -38,6 +38,23 @@ body{
   box-shadow: 3px 3px 3px grey;
 }
 
+/*****  GIFMODAL STYLES *****/
+.fav-heart {
+  max-width: 30px;
+  max-height: 30px;
+}
+.fav-heart:hover {
+  -webkit-transition: transform .3s ease-in-out;
+  -moz-transition: transform .3s ease-in-out;
+  -o-transition: transform .3s ease-in-out;
+  -ms-transition: transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
+  transform: scale(1.2);
+}
+
+
+
+
 /* SEARCH FORM STYLES */
 
 .search_form {
@@ -67,6 +84,21 @@ body{
   -o-transition: color .2s ease-in-out;
   -ms-transition: color .2s ease-in-out;
   transition: color .2s ease-in-out;
+}
+
+.nav-img {
+  display: inline-flex;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.nav-img:hover {
+  -webkit-transition: transform .3s ease-in-out;
+  -moz-transition: transform .3s ease-in-out;
+  -o-transition: transform .3s ease-in-out;
+  -ms-transition: transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
+  transform: scale(1.1);
 }
 
 /***** UPLOAD STYLES *****/
