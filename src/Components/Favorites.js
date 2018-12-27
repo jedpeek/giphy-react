@@ -12,27 +12,25 @@ class Favorites extends Component {
     this.setState({favorited: JSON.parse(localStorage.getItem('favorited')) || []})
   }
 
-  componentDidMount(){
-    this.getFavorites()
-  }
-
-// Removes GIFS from localStorage by returning all GIFS
-// that do not match the gif id that was unfavorited
-  unFavorite = (event)=>{
-    let id = event.target.id
-    const { favorited } = this.state;
-    let filterFav = favorited.filter(gif => gif.id !== id)
+  unfavorite = (event)=>{
+    let filterFav = this.state.favorited.filter(gif => gif.id !== event.target.id)
     this.setState({favorited: filterFav },()=>{
       localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
     })
   }
 
+  componentDidMount(){
+    this.getFavorites()
+  }
+
+
   render() {
     const { favorited, loaded } = this.state;
+
     return (
       <Container fluid>
         <Row>
-        { favorited.length ? favorited.map(gif => <GifCard gif={gif} key={gif.id}  unFavorite={this.unFavorite} loaded={loaded} />) : <h1>YOU NEED TO FAVORITE SOME GIFS</h1> }
+        { favorited.length ? favorited.map(gif => <GifCard gif={gif} key={gif.id} favorited={this.state.favorited}  unfavorite={this.unfavorite} loaded={loaded} />) : <h1>YOU NEED TO FAVORITE SOME GIFS</h1> }
         </Row>
       </Container>
     );

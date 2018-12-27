@@ -10,14 +10,14 @@ class GifModal extends React.Component {
     };
   }
 
-  toggle=()=>{this.setState({modal: !this.state.modal})}
+  toggle=()=>this.setState({modal: !this.state.modal});
+  checkFavs = ()=> this.props.favorited.find(gif=> gif.id === this.props.id);
 
   render() {
-    const { img, title, author, favorited } = this.props
-    let heart;
+    const { img, title, author, favorited, favorite, unfavorite } = this.props
+    let favHeart = <img onClick={favorite} id={this.props.id} src={clear_heart} className="fav-heart" />;
+    let unfavHeart = <img onClick={unfavorite} id={this.props.id} src={red_heart} className="fav-heart" />
 
-    favorited ? heart = <img onClick={this.props.unFavorite} id={this.props.id} src={red_heart} className="fav-heart" /> :
-    heart = <img onClick={this.props.favorite} id={this.props.id} src={clear_heart} className="fav-heart" />
 
     return (
       <React.Fragment>
@@ -29,10 +29,10 @@ class GifModal extends React.Component {
             <img src={img} alt={title}/>
           </ModalBody>
           <ModalFooter>
-            <div display="block" className="float-left">
+
               <small className="text-muted">created by: {author}</small>
-            </div>
-            {heart}
+
+            {this.checkFavs() ? unfavHeart : favHeart}
           </ModalFooter>
         </Modal>
       </React.Fragment>

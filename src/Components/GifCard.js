@@ -13,8 +13,7 @@ class GifCard extends Component {
 
   isFavorited = ()=>{
     const favs = JSON.parse(localStorage.getItem('favorited'))
-    favs.find(gif => gif.id === this.props.gif.id) ?
-    this.setState({favorited: true}) : this.setState({favorited: false});
+    return favs.find(gif => gif.id === this.props.gif.id)
   }
 
   toggle=()=>{this.setState({modal: !this.state.modal})}
@@ -39,8 +38,8 @@ class GifCard extends Component {
             author={this.author()}
             id={id}
             favorite={this.props.favorite}
-            unFavorite={this.props.unFavorite}
-            favorited={this.state.favorited}
+            unfavorite={this.props.unfavorite}
+            favorited={this.props.favorited}
             />
             : null
           }

@@ -84,6 +84,7 @@ class Home extends Component {
 // Favorited gifs get stored in the browsers localStorage as 'favorited'
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
+    console.log('Favorite')
     const localFavs = JSON.parse(localStorage.getItem('favorited'))
     const id = event.target.id
     const currentFav = this.state.gifs.find(gif => gif.id === id)
@@ -96,6 +97,18 @@ class Home extends Component {
       })
     }
   }
+
+  // Removes GIFS from localStorage by returning all GIFS
+  // that do not match the gif id that was unfavorited
+    unfavorite = (event)=>{
+      console.log('unfavorite')
+      let id = event.target.id
+      const { favorited } = this.state;
+      let filterFav = favorited.filter(gif => gif.id !== id)
+      this.setState({favorited: filterFav },()=>{
+        localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
+      })
+    }
 
 // LIFECYCLE METHODS
   componentDidMount(){
@@ -113,7 +126,7 @@ class Home extends Component {
   }
 
   render() {
-    const { gifs, loaded, search, query } = this.state;
+    const { gifs, loaded, search, query, favorited } = this.state;
     return (
       <Fragment>
         <Container fluid className="header">
@@ -129,11 +142,19 @@ class Home extends Component {
           </Row>
         </Container>
         <Container fluid>
-        <Col xs="1" className="sort-div">
-          <SortDropdown newst={this.newest} oldest={this.oldest} random={this.randomClick} />
-        </Col>
+          <Col xs="1" className="sort-div">
+            <SortDropdown newest={this.newest} oldest={this.oldest} random={this.randomClick} />
+          </Col>
           <Row className='last'>
-            { gifs.map(gif => <GifCard gif={gif} key={gif.id} loaded={loaded} favorite={this.favorite}/>)}
+            { gifs.map(gif => <GifCard
+                 gif={gif}
+                 key={gif.id}
+                 loaded={loaded}
+                 favorite={this.favorite}
+                 unfavorite={this.unfavorite}
+                 favorited={favorited}/>
+               )
+            }
           </Row>
         </Container>
         </Fragment>
@@ -142,25 +163,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-
-
-  // giphyData = ()=>{
-  //   const { offset, gifs } = this.state;
-  //   this.setState({loaded: false, search: true})
-  //   axios.get(`http://api.giphy.com/v1/gifs/trending?offset=${offset}&api_key=${api_key}`)
-  //   .then(response => this.setState({gifs:[...gifs, ...response.data.data]})
-  //   ).then(()=> this.setState({loaded: true}))
-  //   .catch(error => console.log(error));
-  // }
-
-  // Search Giphy based on Query
-    // giphySearch = (event)=>{
-    //   event.preventDefault();
-    //   const { query, offset, gifs } = this.state;
-    //   this.setState({loaded: false, search: true})
-    //   axios.get(`http://api.giphy.com/v1/gifs/search?q=${query}&offset=${offset}&api_key=${api_key}`)
-    //     .then(response => this.setState({gifs:[...gifs, ...response.data.data]})
-    //     .then(()=> this.setState({loaded: true}))
-    //     .catch(error => console.log(error))
-    // }
