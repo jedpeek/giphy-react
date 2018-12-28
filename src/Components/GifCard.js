@@ -40,6 +40,7 @@ class GifCard extends Component {
             favorite={this.props.favorite}
             unfavorite={this.props.unfavorite}
             favorited={this.props.favorited}
+
             />
             : null
           }

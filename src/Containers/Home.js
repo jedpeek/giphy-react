@@ -5,10 +5,12 @@ import {Container, Row, Button,Col} from 'reactstrap'
 import GifCard from '../Components/GifCard'
 import SearchForm from '../Components/SearchForm'
 import SortDropdown from '../Components/SortDropdown'
+
 const api_key = process.env.GIPHY_KEY || 'XeV04VURnwNCs7nYczgfCQ3bl7udAXiX'
 const searchURL = "http://api.giphy.com/v1/gifs/search?"
 const trendingURL = "http://api.giphy.com/v1/gifs/trending?"
 const randomURL = "http://api.giphy.com/v1/gifs/random?rating=g"
+
 class Home extends Component {
   state = {
     gifs:[],
@@ -38,8 +40,8 @@ class Home extends Component {
       if (url === searchURL) fullURL +=`&q=${query}`
       this.setState({loaded: false, search: true})
       axios.get(fullURL)
-        .then(res => this.setState({gifs:[...gifs, ...res.data.data]}))
-        .then(this.newest(), this.setState({loaded: true}))
+        .then(res => this.setState({gifs:[...gifs, ...res.data.data], loaded: true}))
+        .then(this.newest())
         .catch(error => console.log(error))
       }
 // Infinite Scroll
@@ -80,7 +82,7 @@ class Home extends Component {
   }
 // Handle form change
   handleChange = (event)=> this.setState({[event.target.name]: event.target.value});
-
+  handleLoad = ()=> this.setState({loaded: true})
 // Favorited gifs get stored in the browsers localStorage as 'favorited'
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
@@ -118,7 +120,7 @@ class Home extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(prevState.url !== this.state.url) this.setState({ offset: 0 })
-    if(prevState.query !== this.state.query ) this.setState({url: searchURL, gifs:[] })
+    if(prevState.query !== this.state.query ) this.setState({url: searchURL, gifs:[]})
   }
 
   componentWillUnmount() {

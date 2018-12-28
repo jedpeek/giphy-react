@@ -110,15 +110,14 @@ body{
   left: 0;
   width: 375px;
   height: 250px;
-  background-color: #eee;
   border-radius: 3px;
-  border: 1px solid black;
-  padding: 5px;
   color: white;
+  opacity: 0.7;
 }
 
 .drop-div:hover {
   background-color: #ccc;
+  opacity: 1;
 }
 
 .dropped-img {
