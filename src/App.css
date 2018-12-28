@@ -47,15 +47,50 @@ body{
   transform: scale(1.2);
 }
 
-
-
-
 /* SEARCH FORM STYLES */
 
 .search_form {
-  width: 75%;
-  margin: auto;
-  padding: 20px 0 50px 0;
+    margin: auto;
+}
+
+.form-group {
+    position: relative;
+    padding-top: 1.5rem;
+    width: 75%;
+    padding: 20px 0 50px 0;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: inherit;
+  font-size: 30px;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0 0 0 30px #eee inset;
+}
+
+input:focus {
+  outline: none;
+  border-color: #11ABB0;
+  border-bottom: 2px solid #11ABB0;
+  -webkit-transition: border-color .2s ease-in-out;
+  -moz-transition: border-color .2s ease-in-out;
+  -o-transition: border-color .2s ease-in-out;
+  -ms-transition: border-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
+}
+label {
+    position: absolute;
+    top: 0;
+    font-size: var(--font-size-small);
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.2s ease-out;
+}
+
+input:placeholder-shown + label {
+    opacity: 0;
+    transform: translateY(2rem);
 }
 
 /* NAV STYLES */
