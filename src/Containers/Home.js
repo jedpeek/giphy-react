@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios'
-// import dummy_data from '../dummy_data'
 import {Container, Row, Col} from 'reactstrap'
 import GifCard from '../Components/GifCard'
 import Search from '../Components/Search'
@@ -20,17 +19,24 @@ class Home extends Component {
     loaded: false,
     url: trendingURL
   }
-  // COMBINE API CALLS TO ONE FUNCTION
-    getGifs = ()=> {
-      const { query, offset, gifs, url } = this.state;
-      let fullURL = `${url}&offset=${offset}&api_key=${api_key}`
-      if (url === searchURL) fullURL +=`&q=${query}`
-      this.setState({loaded: false })
-      axios.get(fullURL)
-        .then(res => this.setState({loaded: true, gifs:[...gifs, ...res.data.data]}))
-        .catch(error => console.log(error))
-      }
-// Infinite Scroll
+//// START GIFS API FUNCTIONS /////
+  getGifs = ()=> {
+    const { query, offset, gifs, url } = this.state;
+    let fullURL = `${url}&offset=${offset}&api_key=${api_key}`
+    if (url === searchURL) fullURL +=`&q=${query}`
+    this.setState({loaded: false })
+    axios.get(fullURL)
+      .then(res => this.setState({loaded: true, gifs:[...gifs, ...res.data.data]}))
+      .catch(error => console.log(error))
+    }
+
+    searchSubmit = (event)=> {
+      event.preventDefault()
+      this.setState({gifs: [], url: searchURL}, this.getGifs)
+    }
+//// END GIFS API FUNCTIONS /////
+
+//// START INFINITE SCROLL /////
   giphyInfinite = ()=>{
     this.setState(prevState => ({
       offset: prevState.offset + 51,
@@ -46,51 +52,40 @@ class Home extends Component {
     const bottomOffset = 400
     if(pageOffset > lastDivOffset - bottomOffset) this.giphyInfinite()
   }
+//// END INFINITE SCROLL /////
 
-
-
-  searchSubmit = (event)=> {
-    event.preventDefault()
-    this.setState({gifs: [], url: searchURL}, this.getGifs)
-  }
-
+//// START SORT FUNCTIONS ////
   newest = (arr) => {
     const newestGifs = arr.sort(function(a,b){
       return new Date(b.import_datetime) - new Date(a.import_datetime);
     });
-  this.setState({gifs: newestGifs})
-  }
+  this.setState({gifs: newestGifs})}
 
   oldest = (arr) => {
       const oldestGifs = arr.sort(function(a,b){
       return new Date(a.import_datetime) - new Date(b.import_datetime);
     });
-    this.setState({gifs: oldestGifs})
-  }
-// Handle form change
-  handleChange = (event)=> this.setState({[event.target.name]: event.target.value});
-  handleLoad = ()=> this.setState({loaded: true})
+    this.setState({gifs: oldestGifs})}
+//// END SORT FUNCTIONS ////
+
+
+
+//// START FAVORITING FUNCTIONS ////
 // Favorited gifs get stored in the browsers localStorage as 'favorited'
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
-    console.log('Favorite')
     const localFavs = JSON.parse(localStorage.getItem('favorited')) || []
-    const id = event.target.id
-    const currentFav = this.state.gifs.find(gif => gif.id === id)
-    if(localFavs !== [] && localFavs.find(gif => gif.id === currentFav.id)){
-      return
-    }else {
-      this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)
-      }),
-        ()=>{localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
-      })
-    }
+    const currentFav = this.state.gifs.find(gif => gif.id === event.target.id)
+    if(localFavs !== [] && localFavs.find(gif => gif.id === currentFav.id)) return
+
+    this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)}),
+      ()=>{localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
+    })
   }
 
   // Removes GIFS from localStorage by returning all GIFS
   // that do not match the gif id that was unfavorited
     unfavorite = (event)=>{
-      console.log('unfavorite')
       let id = event.target.id
       const { favorited } = this.state;
       let filterFav = favorited.filter(gif => gif.id !== id)
@@ -98,8 +93,12 @@ class Home extends Component {
         localStorage.setItem("favorited", [JSON.stringify(this.state.favorited)])
       })
     }
+//// END FAVORITING FUNCTIONS ////
 
-// LIFECYCLE METHODS
+//// HANDLE CHANGE FUNCTION ////
+  handleChange = (e)=> this.setState({[e.target.name]: e.target.value});
+
+//// LIFECYCLE METHODS ////
   componentDidMount(){
     if(this.state.gifs.length === 0) this.getGifs()
     this.scrollEventListener = window.addEventListener('scroll', this.handleScroll)
@@ -107,7 +106,6 @@ class Home extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(prevState.url !== this.state.url) this.setState({ offset: 0 })
-    // if(prevState.query !== this.state.query ) this.setState({url: searchURL})
   }
 
   componentWillUnmount() {
@@ -123,40 +121,40 @@ class Home extends Component {
             <Search
               name='query'
               gifs={this.state.gifs}
-              loaded={this.state.loaded}
+              loaded={loaded}
               giphySearch={this.getGifs}
               handleChange={this.handleChange}
               onClick={this.searchClick}
               searchSubmit={this.searchSubmit}
               />
-          </Row>
-        </Container>
-        <Container fluid>
-          <Col xs="1" className="sort-div">
-            <SortDropdown newest={()=>this.newest(this.state.gifs)} oldest={()=>this.oldest(this.state.gifs)} />
-          </Col>
-          <Row className='last'>
-            { gifs.map(gif => <GifCard
-                 gif={gif}
-                 key={gif.id}
-                 loaded={loaded}
-                 favorite={this.favorite}
-                 unfavorite={this.unfavorite}
-                 favorited={favorited}/>
-               )
-            }
-          </Row>
-        </Container>
+            </Row>
+          </Container>
+          <Container fluid>
+            <Col xs="1" className="sort-div">
+              <SortDropdown newest={()=>this.newest(this.state.gifs)} oldest={()=>this.oldest(this.state.gifs)} />
+            </Col>
+            <Row className='last'>
+              { gifs.map(gif => <GifCard
+                   gif={gif}
+                   key={gif.id}
+                   loaded={loaded}
+                   favorite={this.favorite}
+                   unfavorite={this.unfavorite}
+                   favorited={favorited}/>
+                 )
+              }
+            </Row>
+          </Container>
         </Fragment>
     );
   }
 }
 
 export default Home;
-
-// GET GIFS FROM dummy_data
-// Use setTimeout to imitate API call loading time
-  // giphyData = ()=>{
+// If needed for testing use dummy_data to limit request
+// made to giphy API with the included rate limited api key
+// import dummy_data from '../dummy_data'
+  // getGifs = ()=>{
   //   const { gifs, offset } = this.state
   //   setTimeout(()=>{
   //     this.setState({ loaded: true, scrolling: false, search: false })
