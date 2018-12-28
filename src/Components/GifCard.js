@@ -13,7 +13,11 @@ class GifCard extends Component {
 
   isFavorited = ()=>{
     const favs = JSON.parse(localStorage.getItem('favorited'))
-    return favs.find(gif => gif.id === this.props.gif.id)
+    if(favs){
+      return favs.find(gif => gif.id === this.props.gif.id)
+    }else {
+      return false
+    }
   }
 
   toggle=()=>{this.setState({modal: !this.state.modal})}
@@ -27,14 +31,15 @@ class GifCard extends Component {
   render(){
     const { images, title, id } = this.props.gif
     let imgSrc="";
-    this.props.loaded ? imgSrc = images.fixed_width.url : imgSrc = loading_gif
+    this.props.loaded ? imgSrc = images.preview_gif.url : imgSrc = loading_gif
     return (
       <Col xl="4" lg='6' md='6' sm="12" xs="12" key={this.props.id} >
           <CardImg  src={imgSrc} alt={title} onClick={this.handleClick} className="gif-img img-fluid" />
           { this.state.modal ? <GifModal
             show={this.state.modal}
-            url={this.props.gif.images.fixed_width.url}
-            img={imgSrc} title={this.cutTitle()}
+
+            img={images.original.url}
+            title={this.cutTitle()}
             author={this.author()}
             id={id}
             favorite={this.props.favorite}

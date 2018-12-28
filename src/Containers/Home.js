@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios'
-import dummy_data from '../dummy_data'
-import {Container, Row, Button,Col} from 'reactstrap'
+// import dummy_data from '../dummy_data'
+import {Container, Row, Col} from 'reactstrap'
 import GifCard from '../Components/GifCard'
-import SearchForm from '../Components/SearchForm'
+import Search from '../Components/Search'
 import SortDropdown from '../Components/SortDropdown'
 
 const api_key = process.env.GIPHY_KEY || 'XeV04VURnwNCs7nYczgfCQ3bl7udAXiX'
-const searchURL = "http://api.giphy.com/v1/gifs/search?"
-const trendingURL = "http://api.giphy.com/v1/gifs/trending?"
-const randomURL = "http://api.giphy.com/v1/gifs/random?rating=g"
+const searchURL = "http://api.giphy.com/v1/gifs/search?limit=50"
+const trendingURL = "http://api.giphy.com/v1/gifs/trending?limit=50"
+
 
 class Home extends Component {
   state = {
@@ -18,36 +18,22 @@ class Home extends Component {
     query: "",
     offset:0,
     loaded: false,
-    scrolling: false,
-    search: false,
     url: trendingURL
   }
-// GET GIFS FROM dummy_data
-// Use setTimeout to imitate API call loading time
-  giphyData = ()=>{
-    const { gifs, offset } = this.state
-    setTimeout(()=>{
-      this.setState({ loaded: true, scrolling: false, search: false })
-    }, 3000)
-    this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+25))]})
-  }
-
   // COMBINE API CALLS TO ONE FUNCTION
-    getGifs = (event)=> {
-      if(event) event.preventDefault();
+    getGifs = ()=> {
       const { query, offset, gifs, url } = this.state;
-      let fullURL = `${url}&offset=${offset}&api_key=${api_key}&limit=50`
+      let fullURL = `${url}&offset=${offset}&api_key=${api_key}`
       if (url === searchURL) fullURL +=`&q=${query}`
-      this.setState({loaded: false, search: true})
+      this.setState({loaded: false })
       axios.get(fullURL)
-        .then(res => this.setState({gifs:[...gifs, ...res.data.data], loaded: true}))
-        .then(this.newest())
+        .then(res => this.setState({loaded: true, gifs:[...gifs, ...res.data.data]}))
         .catch(error => console.log(error))
       }
 // Infinite Scroll
   giphyInfinite = ()=>{
     this.setState(prevState => ({
-      offset: prevState.offset + 50,
+      offset: prevState.offset + 51,
       scrolling: true
     }), this.getGifs)
   }
@@ -62,20 +48,21 @@ class Home extends Component {
   }
 
 
-  searchClick = ()=> this.setState({url: searchURL})
-  randomClick = ()=> {
-    this.setState({url: randomURL, gifs:[]}, this.getGifs())
+
+  searchSubmit = (event)=> {
+    event.preventDefault()
+    this.setState({gifs: [], url: searchURL}, this.getGifs)
   }
 
-  newest = () => {
-    const newestGifs = this.state.gifs.sort(function(a,b){
+  newest = (arr) => {
+    const newestGifs = arr.sort(function(a,b){
       return new Date(b.import_datetime) - new Date(a.import_datetime);
     });
   this.setState({gifs: newestGifs})
   }
 
-  oldest = () => {
-      const oldestGifs = this.state.gifs.sort(function(a,b){
+  oldest = (arr) => {
+      const oldestGifs = arr.sort(function(a,b){
       return new Date(a.import_datetime) - new Date(b.import_datetime);
     });
     this.setState({gifs: oldestGifs})
@@ -87,10 +74,10 @@ class Home extends Component {
 // to allow users to leave page and return to view favorited gifs
   favorite = (event)=>{
     console.log('Favorite')
-    const localFavs = JSON.parse(localStorage.getItem('favorited'))
+    const localFavs = JSON.parse(localStorage.getItem('favorited')) || []
     const id = event.target.id
     const currentFav = this.state.gifs.find(gif => gif.id === id)
-    if(localFavs.find(gif => gif.id === currentFav.id)){
+    if(localFavs !== [] && localFavs.find(gif => gif.id === currentFav.id)){
       return
     }else {
       this.setState(prevState => ({favorited: prevState.favorited.concat(currentFav)
@@ -114,13 +101,13 @@ class Home extends Component {
 
 // LIFECYCLE METHODS
   componentDidMount(){
-    if(this.state.gifs.length === 0) this.giphyData()
+    if(this.state.gifs.length === 0) this.getGifs()
     this.scrollEventListener = window.addEventListener('scroll', this.handleScroll)
   }
 
   componentDidUpdate(prevProps, prevState){
     if(prevState.url !== this.state.url) this.setState({ offset: 0 })
-    if(prevState.query !== this.state.query ) this.setState({url: searchURL, gifs:[]})
+    // if(prevState.query !== this.state.query ) this.setState({url: searchURL})
   }
 
   componentWillUnmount() {
@@ -128,24 +115,25 @@ class Home extends Component {
   }
 
   render() {
-    const { gifs, loaded, search, query, favorited } = this.state;
+    const { gifs, loaded, favorited } = this.state;
     return (
       <Fragment>
         <Container fluid className="header">
           <Row>
-            <SearchForm
+            <Search
               name='query'
               gifs={this.state.gifs}
               loaded={this.state.loaded}
               giphySearch={this.getGifs}
               handleChange={this.handleChange}
               onClick={this.searchClick}
+              searchSubmit={this.searchSubmit}
               />
           </Row>
         </Container>
         <Container fluid>
           <Col xs="1" className="sort-div">
-            <SortDropdown newest={this.newest} oldest={this.oldest} random={this.randomClick} />
+            <SortDropdown newest={()=>this.newest(this.state.gifs)} oldest={()=>this.oldest(this.state.gifs)} />
           </Col>
           <Row className='last'>
             { gifs.map(gif => <GifCard
@@ -165,3 +153,13 @@ class Home extends Component {
 }
 
 export default Home;
+
+// GET GIFS FROM dummy_data
+// Use setTimeout to imitate API call loading time
+  // giphyData = ()=>{
+  //   const { gifs, offset } = this.state
+  //   setTimeout(()=>{
+  //     this.setState({ loaded: true, scrolling: false, search: false })
+  //   }, 3000)
+  //   this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+25))]})
+  // }
