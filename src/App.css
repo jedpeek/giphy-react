@@ -19,9 +19,9 @@ body{
 /*****  GIFCARD STYLES *****/
 .gif-img {
   border-radius: 2px;
-  max-width: 380px;
+  max-width: 375px;
   max-height: 220px;
-  min-width: 380px;
+  min-width: 375px;
   min-height: 220px;
   overflow: hidden;
   margin: 10px ;
@@ -100,18 +100,21 @@ body{
 
 .drop-div {
   position: relative;
-  background-image: url();
+  background-image:url('./Images/UPLOAD_GIF.gif');
+  background-repeat: no-repeat;
+  background-size:cover;
   margin: auto;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 400px;
+  width: 375px;
   height: 250px;
   background-color: #eee;
   border-radius: 3px;
   border: 1px solid black;
   padding: 5px;
+  color: white;
 }
 
 .drop-div:hover {
@@ -125,8 +128,8 @@ body{
   right: 0;
   bottom: 0;
   left: 0;
-  max-width: 400px;
+  max-width: 375px;
   max-height: 250px;
-  min-width: 400px;
+  min-width: 375px;
   min-height: 250px;
 }
