@@ -16,15 +16,13 @@ export default class SortDropdown extends Component {
   }
 
   render() {
-    const {newest, oldest, random} = this.props;
+    const {newest, oldest } = this.props;
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle >SORT</DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={newest}>NEWEST</DropdownItem>
           <DropdownItem onClick={oldest}>OLDEST</DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={random}>RANDOM</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
