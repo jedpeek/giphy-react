@@ -9,8 +9,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
 I have included a rate limited api_key w/ this project.
-If you run in to problems making too many requests
-you can still favorite scroll and upload GIFS from the dummy_data set.
+If you run into problems making too many requests
+you can still favorite, scroll, and upload GIFS from the dummy_data set.
 Comment out the  current `getGifs()` function inside `src/Containers/Home.js` and replace with this code
 
 ```

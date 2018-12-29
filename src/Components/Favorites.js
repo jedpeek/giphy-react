@@ -35,7 +35,7 @@ class Favorites extends Component {
     return (
       <Container fluid>
         <Row>
-        { favorited.length ? favorited.map(gif => <GifCard gif={gif} key={gif.id} favorited={this.state.favorited}  unfavorite={this.unfavorite} loaded={loaded} />) : <h1>YOU NEED TO FAVORITE SOME GIFS</h1> }
+        { favorited.length ? favorited.map(gif => <GifCard gif={gif} key={gif.id} favorited={this.state.favorited}  unfavorite={this.unfavorite} loaded={loaded} />) : <h1 className="center-text">YOU NEED TO FAVORITE SOME GIFS</h1> }
         </Row>
       </Container>
     );
