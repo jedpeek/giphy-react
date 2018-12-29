@@ -4,7 +4,7 @@ import {Container, Row, Col} from 'reactstrap'
 import GifCard from '../Components/GifCard'
 import Search from '../Components/Search'
 import SortDropdown from '../Components/SortDropdown'
-
+import sorry_gif from "../Images/SORRY_GIF.gif"
 const api_key = process.env.GIPHY_KEY || 'XeV04VURnwNCs7nYczgfCQ3bl7udAXiX'
 const searchURL = "http://api.giphy.com/v1/gifs/search?limit=50"
 const trendingURL = "http://api.giphy.com/v1/gifs/trending?limit=50"
@@ -46,7 +46,6 @@ class Home extends Component {
 
   handleScroll = (event)=>{
     const lastDiv = document.querySelector('div.last > div:last-child')
-    console.log(lastDiv)
     const lastDivOffset = lastDiv.offsetTop + lastDiv.clientHeight
     const pageOffset = window.pageYOffset + window.innerHeight;
     const bottomOffset = 400
@@ -59,13 +58,15 @@ class Home extends Component {
     const newestGifs = arr.sort(function(a,b){
       return new Date(b.import_datetime) - new Date(a.import_datetime);
     });
-  this.setState({gifs: newestGifs})}
+    this.setState({gifs: newestGifs})
+  }
 
   oldest = (arr) => {
-      const oldestGifs = arr.sort(function(a,b){
+    const oldestGifs = arr.sort(function(a,b){
       return new Date(a.import_datetime) - new Date(b.import_datetime);
     });
-    this.setState({gifs: oldestGifs})}
+    this.setState({gifs: oldestGifs})
+  }
 //// END SORT FUNCTIONS ////
 
 
@@ -114,6 +115,10 @@ class Home extends Component {
 
   render() {
     const { gifs, loaded, favorited } = this.state;
+    const sorry = <Col xs="12">
+    <h1>SORRY WE COULDN'T FIND ANY GIFS</h1>
+    <img src={sorry_gif} alt="sorry" />
+    </Col>
     return (
       <Fragment>
         <Container fluid className="header">
@@ -134,6 +139,7 @@ class Home extends Component {
               <SortDropdown newest={()=>this.newest(this.state.gifs)} oldest={()=>this.oldest(this.state.gifs)} />
             </Col>
             <Row className='last'>
+              { (gifs.length === 0) ? sorry : null }
               { gifs.map(gif => <GifCard
                    gif={gif}
                    key={gif.id}
