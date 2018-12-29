@@ -133,6 +133,17 @@ input:placeholder-shown + label {
 
 /***** UPLOAD STYLES *****/
 
+.uploadBtn {
+  margin: 10px;
+  width: 375px;
+}
+
+.uploadBtn:hover {
+  margin: 10px;
+  background-color: #11ABB0;
+  width: 375px;
+}
+
 .drop-div {
   position: relative;
   background-image:url('./Images/UPLOAD_GIF.gif');
@@ -166,4 +177,11 @@ input:placeholder-shown + label {
   max-height: 250px;
   min-width: 375px;
   min-height: 250px;
+}
+
+/**** FAVORITES STYLES ****/
+
+.center-text {
+  position: relative;
+  margin: auto;
 }
