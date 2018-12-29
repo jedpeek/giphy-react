@@ -151,13 +151,3 @@ class Home extends Component {
 }
 
 export default Home;
-// If needed for testing use dummy_data to limit request
-// made to giphy API with the included rate limited api key
-// import dummy_data from '../dummy_data'
-  // getGifs = ()=>{
-  //   const { gifs, offset } = this.state
-  //   setTimeout(()=>{
-  //     this.setState({ loaded: true, scrolling: false, search: false })
-  //   }, 3000)
-  //   this.setState({gifs: [...gifs, ...dummy_data.data.slice(offset, (offset+25))]})
-  // }
