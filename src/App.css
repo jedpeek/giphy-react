@@ -27,6 +27,7 @@ body{
   margin: 10px ;
   opacity: 0.8;
 }
+
 .gif-img:hover{
   opacity: 1;
   transform: scale(1.05);
@@ -38,6 +39,7 @@ body{
   max-width: 30px;
   max-height: 30px;
 }
+
 .fav-heart:hover {
   -webkit-transition: transform .3s ease-in-out;
   -moz-transition: transform .3s ease-in-out;
@@ -79,6 +81,7 @@ input:focus {
   -ms-transition: border-color .2s ease-in-out;
   transition: border-color .2s ease-in-out;
 }
+
 label {
     position: absolute;
     top: 0;

@@ -69,8 +69,6 @@ class Home extends Component {
   }
 //// END SORT FUNCTIONS ////
 
-
-
 //// START FAVORITING FUNCTIONS ////
 // Favorited gifs get stored in the browsers localStorage as 'favorited'
 // to allow users to leave page and return to view favorited gifs
@@ -139,7 +137,7 @@ class Home extends Component {
               <SortDropdown newest={()=>this.newest(this.state.gifs)} oldest={()=>this.oldest(this.state.gifs)} />
             </Col>
             <Row className='last'>
-              { (gifs.length === 0) ? sorry : null }
+              { (gifs.length === 0 && loaded) ? sorry : null }
               { gifs.map(gif => <GifCard
                    gif={gif}
                    key={gif.id}
